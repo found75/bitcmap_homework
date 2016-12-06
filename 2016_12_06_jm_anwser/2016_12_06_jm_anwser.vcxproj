@@ -85,9 +85,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.c" />
+    <ClCompile Include="phonebook.c" />
     <ClCompile Include="참고문서\전화번호부프로그램\main.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="phonebook.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
