@@ -23,6 +23,10 @@ void main_person()
 	int createPerNum=0;
 	int perNum=0;
 
+	perNum = 0;
+	memset(prgPresons,0x00,sizeof(Person)*MAX_PERSON_NUM);
+	LoadFile(_szFileName,_cKey,&prgPresons,&perNum);
+
 	while(1)
 	{
 		ShowMenu();
@@ -117,7 +121,6 @@ void DeleteTelInfo(Person* parr, int* pnum)
 
 	printf("-------------> Data Not Found............\n");
 }
-
 void SearchTelInfo(Person* parr, int num)
 {
 	int i=0;
@@ -138,7 +141,6 @@ void SearchTelInfo(Person* parr, int num)
 
 	printf("------------> Data Not Found.............\n");
 }
-
 void PrintAll(Person* parr, int num)
 {
 	int i;
@@ -146,7 +148,6 @@ void PrintAll(Person* parr, int num)
 	for(i=0;i<num;i++)
 		printf("Name : %s / Tel : %s \n", parr[i].name, parr[i].phone);
 }
-
 void SaveFile(char* szFile, char cKey,Person** parr,int iSize)
 {
 	int i = 0 , j = 0;

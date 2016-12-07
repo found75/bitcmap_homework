@@ -14,10 +14,13 @@ key는 임의의 키를 주세요
 #define TEL_LEN			20
 #define MAX_PERSON_NUM	100
 
+
+#pragma pack(push,1)
 typedef struct _Person
 {
 	char name[NAME_LEN];
 	char phone[TEL_LEN];
+
 } Person;
 
 
