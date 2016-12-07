@@ -39,7 +39,7 @@ bool Person::operator== (char* szName)
 }
 void Person::Print()
 {
-	printf("-----> Name : %s	/	Tel : %s \n", m_szName, m_szPhone);
+	cout << "-----> Name : " << m_szName << "	/	Tel : " << m_szPhone << endl;
 }
 
 void main_person()
@@ -55,18 +55,13 @@ void main_person()
 	{
 		ShowMenu();
 
-		printf("Choose the item : ");
-		scanf("%d", &choice);
-
-		/*cout <<"Choose the item : ";
-		cin >> choice;*/
-
-		
+		cout <<"Choose the item : ";
+		cin >> choice;
 
 		switch(choice)
 		{
 		case 1 :
-			InsertTelInfo(perArr, &perNum);
+			InsertTelInfo(&perArr, &perNum);
 			break;
 		case 2 :
 			DeleteTelInfo(perArr, &perNum);
@@ -97,20 +92,21 @@ void ShowMenu()
 	printf("	5. Exit \n");
 }
 
-void InsertTelInfo(Person* par, int* pnum)
+void InsertTelInfo(Person** par, int* pnum)
 {
 	char name[NAME_LEN];
 	char phone[TEL_LEN];
-	printf("[ INSERT ] \n");
-	printf("Input Name : ");
-	scanf("%s", name);
-	printf("Input Tel Number : ");
-	scanf("%s", phone);
-	par[*pnum].SetName(name);
-	par[*pnum].SetPhone(phone);
+	cout << "[ INSERT ] \n"; 
+	cout << "Input Name : ";
+	cin >> name;
+	cout << "Input Tel Number : ";
+	cin >> phone;
+
+	(*par)[*pnum].SetName(name);
+	(*par)[*pnum].SetPhone(phone);
 	(*pnum)++;
 
-	printf("-----------> Data Inserted......\n");
+	cout << "-----------> Data Inserted......\n" ;
 }
 
 void DeleteTelInfo(Person* par, int* pnum)
@@ -118,13 +114,13 @@ void DeleteTelInfo(Person* par, int* pnum)
 	int i=0, j=0;
 	char name[NAME_LEN];
 
-	printf("[ Delete ] \n");
-	printf("Input Name for Removing : ");
-	scanf("%s", name);
-
+	cout << "[ Delete ] \n"; 
+	cout << "Input Name for Removing : "; 
+	cin >> name;
+	
 	for(i=0;i<*pnum;i++)
 	{
-		if(strcmp(par[i].GetName(), name)==0)
+		if(par[i] == name)
 		{
 			for(j=i+1;j<*pnum;j++)
 			{
@@ -135,8 +131,7 @@ void DeleteTelInfo(Person* par, int* pnum)
 			return;
 		}
 	}
-
-	printf("-------------> Data Not Found..........\n");
+	cout << "-------------> Data Not Found..........\n"; 
 }
 
 void SearchTelInfo(Person* par, int num)
@@ -144,10 +139,10 @@ void SearchTelInfo(Person* par, int num)
 	int i=0;
 	char name[NAME_LEN];
 
-	printf("[ Search ] \n");
-	printf("Input Name for Searching : ");
-	scanf("%s", name);
-
+	cout << "[ Search ] \n";
+	cout << "Input Name for Searching : ";
+	cin >> name;
+	
 	for(i=0;i<num;i++)
 	{
 		if(par[i] == name)
@@ -156,19 +151,15 @@ void SearchTelInfo(Person* par, int num)
 			return;
 		}
 	}
-
-	printf("-------------> Data Not Found..........\n");
+	cout << "-------------> Data Not Found..........\n"; 
 }
 
 void PrintAll(Person* par, int num)
 {
 	int i=0;
-
-	printf("[ Print All Data ] \n");
-
+	cout << "[ Print All Data ] \n"; 
 	for(i=0;i<num;i++)
 	{
 		par[i].Print();
 	}
-	//printf("Name : %s	/	Tel : %s \n", par[i].name, par[i].phone);
 }

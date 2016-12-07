@@ -32,7 +32,7 @@ public:
 
 void main_person();
 void ShowMenu();
-void InsertTelInfo(Person* par, int* pnum);
+void InsertTelInfo(Person** par, int* pnum);
 void DeleteTelInfo(Person* par, int* pnum);
 void SearchTelInfo(Person* par, int num);
 void PrintAll(Person* par, int num);
