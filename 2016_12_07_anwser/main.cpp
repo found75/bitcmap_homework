@@ -1,6 +1,8 @@
 #include "main.h"
 
 #include <iostream>
+#include "Person.h"
+
 
 
 using namespace std;
@@ -104,18 +106,21 @@ void dynamicAllocate()
 	while(iInput != -1)
 	{
 		cin >> iInput;
-		prgData[inputCnt] = iInput;
-		inputCnt++;
-		
-		if(inputCnt%5 == 0)
+		if(iInput != -1)
 		{
-			buffSize = buffSize + 5;
-			int oldSize = sizeof(prgData);
-			int* pNewData = new int[buffSize];
-			cout<<" 메모리를 추가 할당 합니다." << buffSize <<endl;
-			memcpy(pNewData,prgData,inputCnt*sizeof(prgData[0]));
-			delete [] prgData;
-			prgData = pNewData;
+			prgData[inputCnt] = iInput;
+			inputCnt++;
+
+			if(inputCnt%5 == 0)
+			{
+				buffSize = buffSize + 5;
+				int oldSize = sizeof(prgData);
+				int* pNewData = new int[buffSize];
+				cout<<" 메모리를 추가 할당 합니다." << buffSize <<endl;
+				memcpy(pNewData,prgData,inputCnt*sizeof(prgData[0]));
+				delete [] prgData;
+				prgData = pNewData;
+			}
 		}
 	}
 	for(int i = 0; i < inputCnt; i++)
@@ -125,6 +130,9 @@ void dynamicAllocate()
 	delete [] prgData;
 }
 
+
+
+
 int main()
 {
 	//RangeSum();
@@ -132,7 +140,8 @@ int main()
 	//mainCpp();
 	//strInOut();
 
-	dynamicAllocate();
+	//dynamicAllocate();
+	main_person();
 	fflush(stdin);
 	getchar();
 }
