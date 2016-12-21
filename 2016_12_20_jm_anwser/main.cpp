@@ -5,10 +5,11 @@
 #include <string>
 #include "turboc.h"
 #include <process.h>
+//#include "Util.h"
 
 using namespace std;
 
-#define _GROUND_WITDH_ 60
+#define _GROUND_WITDH_ 80
 #define _GROUND_HEIGTH_ 40
 
 CRITICAL_SECTION crit;
@@ -142,7 +143,10 @@ public:
 		return (y > _GROUND_HEIGTH_);
 	}
 
-
+	bool IsStop()
+	{
+		return m_bStop;
+	}
 	void Stop()
 	{
 		m_bStop = true;
@@ -266,19 +270,24 @@ HANDLE hThread;
 
 unsigned __stdcall InputKey( void* pArguments );
 
+
+int nRunningGame;
+int bFinishGame;
+
+bool bAppExit = false;
 int main()
 {
 	InitializeCriticalSection(&crit); //동기화 객체를 초기화 한다.
 
 	hThread = (HANDLE)_beginthreadex(NULL, 0, &InputKey, &didimDol, 0, &threadID);
 
+	bFinishGame  = 0;
 	system("mode con:cols=100 lines=60");
 	setcursortype(NOCURSOR);
 	while(true)
 	{
 		//RunGong();
 		//RunDidimdol();
-		
 		for(int i = 0 ; i < _SIZE_ ; i++)
 		{
 			if(!RunGongEx(&gongs[i]))
@@ -288,57 +297,56 @@ int main()
 
 			if(gongs[i].IsFloor() && !gongs[i].bStart) //공이 바닥에 있으면.
 			{
-				if(didimDol.IsDidimDol(gongs[i].x,gongs[i].y)) //바닥에 있으면.
+				if(didimDol.IsDidimDol(gongs[i].x,gongs[i].y) && !gongs[i].IsStop()) //바닥에 있으면.
 				{
 					gongs[i].ChangeDirect();
 				}
 				else
 				{
-					gongs[i].Stop();// = true;
+					if(!gongs[i].IsStop())
+					{
+						gongs[i].Stop();// = true;
+						bFinishGame++;
+					}
+					
 				}
 			}
 			
 		}
 		RunDidimdol();
 
-		bExit = true;
+		if(bFinishGame == _SIZE_)
+		{
+			EnterCriticalSection(&crit);
+			gotoxy(2,_GROUND_HEIGTH_ + 2);
+			cout << "모든 게임이 종료 되었습니다." << endl;
+			cout << "다시 시작하시겠 습니까.";
+			LeaveCriticalSection(&crit);
 
-		WaitForSingleObject(hThread,5000); //키입력 Thread 가 입력 될때가지 대기한다. 
-
-		//if(gong.IsFloor() && !gong.bStart) //공이 바닥에 있으면.
-		//{
-		//	if(didimDol.IsDidimDol(gong.x,gong.y)) //바닥에 있으면.
-		//	{
-		//		gong.ChangeDirect();
-		//	}
-		//	else
-		//	{	
-		//		char ch;
-
-		//		EnterCriticalSection(&crit);
-		//		gotoxy(0,_GROUND_HEIGTH_ + 1);
-		//		cout << "게임을 다시 시작 하기시겠습까.";
-		//		LeaveCriticalSection(&crit);
-
-		//		cin >> ch;
-		//		if(toupper(ch) == 'Y')
-		//		{
-		//			EnterCriticalSection(&crit);
-		//			gotoxy(0,_GROUND_HEIGTH_ + 1);
-		//			cout << "                                      ";
-		//			LeaveCriticalSection(&crit);
-		//			gong.InitGame();
-		//		}
-		//		else
-		//		{
-		//			//Thread 종료 해야함. 
-		//			return -1;
-		//		}
-		//	}
-		//}
+			int ch;
+			cin >> ch;
+			if(toupper(ch) == 'Y')
+			{
+				for(int i = 0; i < _SIZE_ ; i++ )
+				{
+					gongs[i].InitGame();
+				}
+			}
+			else
+			{
+				bAppExit = true;
+			}
+		}
+		
+		if(bExit )
+		{
+			break;
+		}
 	}
-
 	DeleteCriticalSection(&crit);
+
+	bExit = true;
+	WaitForSingleObject(hThread,5000); //키입력 Thread 가 입력 될때가지 5초만 대기한다. 
 	return 0;
 
 }
@@ -409,7 +417,7 @@ unsigned __stdcall InputKey( void* pArguments )
 			pDi->MoveRight();
 			break;
 		}
-		Sleep(30);
+		Sleep(20);
 	}
 	return 0;
 }
