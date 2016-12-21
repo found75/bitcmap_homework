@@ -189,7 +189,7 @@ public:
 	{
 		if(y == _GROUND_HEIGTH_)
 		{
-			if(((m_x) <= x) && x <= (m_x + (m_nSize * 2) + 1))
+			if(((m_x) <= x) && x <= (m_x + (m_nSize * 2)))
 			{
 				return true;
 			}
@@ -366,7 +366,6 @@ bool RunGongEx(Gong* pGong)
 	}
 	return !pGong->IsExit();
 }
-
 bool RunGong()
 {
 	if(gong.preTime == 0)

@@ -7,10 +7,23 @@
 #include <WinSock2.h>
 #include <windows.h>
 #include <stdio.h>
+#include <iostream>
 
-int PORT = 8000;
-//char IP[20] = "192.168.0.117"; //Loop Address
+using namespace std;
+
+#define _BUFF_SIZE_ 4096
+int PORT = 9000;
 char IP[20] = "127.0.0.1"; //Loop Address
+
+
+void SendMsg(char* msg)
+{
+	cout << "My    => " << msg << endl;
+}
+void RecvMsg(char* msg)
+{
+	cout << "othar => " << msg << endl;
+}
 
 void main(int argc, char* argv[])
 {
@@ -18,7 +31,7 @@ void main(int argc, char* argv[])
 	SOCKET		clientSocket;	//클라이언트 소켓
 	WSADATA		wsadata;
 	char		ch;
-	char		buffer[4096];
+	char		buffer[_BUFF_SIZE_];
 	int			len = 0;
 
 	if(argc == 3)
@@ -51,20 +64,22 @@ void main(int argc, char* argv[])
 
 	while(true)
 	{
-		len = recv(clientSocket,buffer,sizeof(buffer),0);
+		len = recv(clientSocket,buffer,sizeof(buffer),0); //처음 접속후 서버의 메세지를 기다린다.
 		buffer[len] = 0;
-		printf("%s\n",buffer);
-
-		if(strcmp(buffer,"OUT") == 0)
+		RecvMsg(buffer);
+		cin.getline(buffer,_BUFF_SIZE_ - 1);		
+		send(clientSocket,buffer,strlen(buffer),0);
+		SendMsg(buffer);
+		if(strcmp(buffer,":quit") == 0)
 		{
+			cout << "채팅을 종료 합니다." << endl;
 			break;
 		}
-
-		fgets(buffer,sizeof(buffer),stdin);
-		send(clientSocket,buffer,strlen(buffer),0);
 	}
-	printf("data ===> %s\n",buffer);
+	
 	closesocket(clientSocket);
+	cout << "프로그램을 종료합니다.." << endl;
+	clientSocket = NULL;
 	WSACleanup(); //소켓 초기화를 해제한다.
 	system("pause");
 
