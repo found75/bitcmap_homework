@@ -1,0 +1,90 @@
+1. Random 클래스를 만들것
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime> 
+
+using namespace std;
+int main() 
+{
+	Random r;
+	cout << "-- 0에서 " << RAND_MAX << "까지의 랜덤 정수 10 개--" << endl;
+	for(int i=0; i<10; i++) 
+	{
+		int n = r.next(); // 0에서 RAND_MAX(32767) 사이의 랜덤한 정수
+		cout << n << ' ';
+	}
+	cout << endl << endl << "-- 2에서 " << "4 까지의 랜덤 정수 10 개 --" << endl;
+	for(int i=0; i<10; i++) 
+	{
+		int n = r.nextInRange(2, 4); // 2에서 4 사이의 랜덤한 정수
+		cout << n << ' ';
+	}
+	cout << endl;
+}
+
+
+
+2. Oval 클래스 만들기
+
+#include <iostream>
+using namespace std;
+
+// main() 함수
+int main() 
+{
+	Oval a, b(3, 4);
+	a.set(10, 20);
+	a.show();
+	cout << b.getWidth() << ", " << b.getHeight() << endl;
+}
+
+
+3. string을 이용하여 영문 한줄 입력받고 거꾸로 출력할 것
+Reversestring
+
+
+
+4. Histogram 클래스 만들것
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+int main() 
+{
+	Histogram elvisHisto("Wise men say, only fools rush in But I can't help, \n");
+	elvisHisto.put("falling in love with you");
+	elvisHisto.putc('-');
+	elvisHisto.put("Elvis Presley");
+	elvisHisto.print();
+}
+
+
+6. IMP3클래스를 순수가상함수들로만 만드세요.
+   virtual void Music() = 0;
+   virtual void Radio() = 0;
+   virtual void Image() = 0;
+   이것을 사용하는 MP3Handler 클래스와 
+   MP3클래스를 상속받는 3개회사(Samsung, LG, Sony)의 클래스를 구현하세요.
+   그리고 main에서 사용해보세요.
+
+
+
+7.TelInfo의 클래스내의 이름과 전화번호를 동적할당하시오.
+동적할당할 때 생성자와 소멸자를 이용할 것.
+
+
+8.위 문제에서 복사생성자를 만들 것
+
+9. Person클래스와 PersonManager클래스로 만들것
+   PersonManager클래스는 Person클래스 배열을 멤버 변수로
+   포함하고 있습니다.
+   또 PersonManager클래스는 아래 함수를 멤버함수로 가지고 있습니다.
+	void ShowMenu();
+	void InsertTelInfo(Person* par, int* pnum);
+	void DeleteTelInfo(Person* par, int* pnum);
+	void SearchTelInfo(Person* par, int num);
+	void PrintAll(Person* par, int num);
